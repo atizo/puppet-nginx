@@ -8,6 +8,19 @@ class nginx {
     hasstatus => false, 
     require => Package['nginx'],
   }
+  file{'/etc/nginx/conf':
+    source => [
+      "puppet://$server/modules/site-nginx/$fqdn/conf",
+      "puppet://$server/modules/site-nginx/$operatingsystem/conf",
+      "puppet://$server/modules/site-nginx/conf",
+      "puppet://$server/modules/nginx/$operatingsystem/conf",
+      "puppet://$server/modules/nginx/conf",
+    ],
+    ensure => "directory",
+    require => Package['nginx'],
+    notify => Service['nginx'],
+    owner => root, group => 0, mode => 0440;
+  }
   nginx::configfile{[
     'nginx.conf',
     'mime.types',
