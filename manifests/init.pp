@@ -16,9 +16,9 @@ class nginx {
       "puppet://$server/modules/nginx/$operatingsystem/conf",
       "puppet://$server/modules/nginx/conf",
     ],
-    ensure => "directory",
     require => Package['nginx'],
     notify => Service['nginx'],
+    recurse => true,
     owner => root, group => 0, mode => 0440;
   }
   nginx::configfile{[
